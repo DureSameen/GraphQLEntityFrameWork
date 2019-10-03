@@ -12,9 +12,19 @@ namespace GraphQLEntityFrameWork.GraphQL.GQueries
         public BlogQuery(BlogRepository service)
         {
             Field<ListGraphType<BlogGType>>(
-                "blogs"
-                , resolve: context => service.GetAll()
-                ); 
+                "blogs",
+                arguments: new QueryArguments(
+                new QueryArgument<IntGraphType>() { Name = "id" } )
+                , resolve: context =>
+                {
+                    int? id = context.GetArgument<int>("id");
+                    if (id != null)
+                    {
+                        return service.Get(id.Value);
+                    }
+                    else
+                    { return service.GetAll(); }
+                }); 
 
         }
     }
