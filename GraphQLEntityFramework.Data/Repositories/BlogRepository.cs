@@ -37,9 +37,10 @@ namespace GraphQLEntityFramework.Data.Repositories
  
         }
 
-        public Blog Get(int id)
+        public  IEnumerable<Blog>  Get(int id)
         {
-            return GetQuery().Single(x => x.BlogId  == id);
+            return   GetQuery().Where(x => x.BlogId == id).ToList ();
+            
         }
 
         public IIncludableQueryable<Blog, List<Review>> GetQuery()
